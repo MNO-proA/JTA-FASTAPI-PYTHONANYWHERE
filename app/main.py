@@ -44,10 +44,14 @@ app = FastAPI(
         "url": "https://opensource.org/licenses/MIT",
     },)
 
-handler = Mangum(app)
+
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-session = aioboto3.Session(region_name='eu-north-1')
+session = aioboto3.Session(
+    aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+    aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+    region_name=os.getenv('AWS_DEFAULT_REGION', 'eu-north-1')
+)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # Helper function to deserialize DynamoDB items
 def deserialize_dynamodb_item_for_list(item):
